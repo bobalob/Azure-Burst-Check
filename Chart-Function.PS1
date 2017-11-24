@@ -60,6 +60,9 @@ Param(
     }
     
     # Save the chart as a PNG
+    if (!(Test-Path ".\Charts")) {
+        New-Item -Path ".\Charts" -ItemType Directory
+    }
     $imageName = ".\Charts\$($data[0].SKU).png"
     $temp = $tempChart.SaveImage($imageName, "PNG")
     Write-Host "Chart Created: " -NoNewLine
