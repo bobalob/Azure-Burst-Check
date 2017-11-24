@@ -4,7 +4,7 @@ Will it burst?
 
 ## Get-AzureRmBurstApplicability.PS1
 
-Script to check if your VM is applicable to a burstable VM size. Good for ensuring your VM is idle enough for enough time that it could run as a burstable machine.
+Script to check if your VM is applicable to a burstable VM size. Good for ensuring your VM is idle enough, for enough time that it could run as a burstable machine.
 
 The script will load the VM diagnostics for a specified period and will then do some rudimentary checks to see if it could run in a burstable VM SKU. This script only looks at CPU usage on the host and the memory size of the input VM. It does not take in to account disk or any other resource constraints. Ensure the burstable size shown fits your other requirements before resizing the machine.
 
@@ -14,7 +14,7 @@ The output will show all burstable VM sizes and an applicability rating for the 
 
 The Throttled column shows the amount of data points that would have caused throttling of the VM due to the machine running out of credits. This is a little misleading since if the machine was throttled then it would take longer to do it's work and likely throttle for longer than the figure shows. I would advise if there is any significant (>5%) throttling then the VM size is unsuitable unless the VM is very low priority.
 
-If you do decide to switch to a burstable VM, then I would suggest applying an alert to the new credit metric to show when the VM is running with low credits and incread the VM size accordingly.
+If you do decide to switch to a burstable VM, then I would suggest applying an alert to the new credit metric to show when the VM is running with low credits and increase the VM size accordingly.
 
 ## Example
 
