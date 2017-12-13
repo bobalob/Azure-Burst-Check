@@ -87,6 +87,15 @@ if (!($SubscriptionId)) {
 }
 
 $VM = Get-AzureRmVm | Where-Object {$_.Name -eq $vmName}
+
+if ($VM.count -ne 1) {
+    Write-Error "VM not found or VM name is ambiguous"
+    Exit 1
+} else {
+    Write-Host "Found VM as follows:" -ForegroundColor Yellow
+    Write-Host "VM ID: $($VM.Id)"
+}
+
 $VmSku = Get-AzureRmVMSize -Location $vm.Location | 
     Where-Object {$_.Name -eq $vm.HardwareProfile.VmSize}
 
@@ -96,9 +105,6 @@ $VmSku
 
 $thisVmCoreCount = $VmSku.NumberOfCores
 
-if ($VM.count -ne 1) {
-    Write-Error "VM not found or VM name is ambiguous"
-}
 
 $endTime = Get-Date
 $startTime = $endTime.AddDays(-$lastDays)
@@ -109,6 +115,7 @@ $allowedMetrics = Get-AzureRmMetricDefinition -ResourceId $VM.Id
 $cpuMetric = $allowedMetrics | Where-Object {$_.Name.Value -eq $metricName}
 if (!($cpuMetric)) {
     Write-Error "Unable to find the $($metricName) metric for the VM"
+    Exit 1
 }
 
 $cpuMetricDetails = Get-AzureRmMetric -ResourceId $VM.id `
