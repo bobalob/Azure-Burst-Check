@@ -54,6 +54,8 @@ Param(
     $showChart
 )
 
+Set-Location $PSScriptRoot
+
 # Ask user to Login to Account
 if (!($Account)) {
     if (!($Credential)) {
